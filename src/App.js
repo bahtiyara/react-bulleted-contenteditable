@@ -9,11 +9,6 @@ export default function App() {
 
     return (
         <div className="app">
-            <div className="bullets">
-                {data.split("\n").map((i, index) => (
-                    <Bullet height={heights[index]} key={index} />
-                ))}
-            </div>
             <ContentEditable
                 className="textarea"
                 onChange={(e, val) => {
@@ -22,6 +17,11 @@ export default function App() {
                 }}
                 defaultValue={defaultValue}
             />
+            <div className="bullets">
+                {data.split("\n").map((i, index) => (
+                    <Bullet height={heights[index]} key={index} />
+                ))}
+            </div>
         </div>
     )
 }

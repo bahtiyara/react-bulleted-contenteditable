@@ -1,13 +1,14 @@
 export default function ContentEditable(props) {
-    const { defaultValue, onChange, className, id } = props
+    const { defaultValue, onChange, className, id, onFocus } = props
     return (
         <div
             id={id}
+            onFocus={onFocus}
             className={className}
             suppressContentEditableWarning
             contentEditable
             onBeforeInput={(e) => {
-                if (["", "\n"].includes(e.target.innerText)) {
+                if (e.target.innerText === "") {
                     // Create content
                     const div = document.createElement("div")
                     div.innerText = e.data
@@ -20,25 +21,18 @@ export default function ContentEditable(props) {
                     sel.removeAllRanges()
                     sel.addRange(range)
                     // Callbacks
-                    onChange(e, adjustVal(e.target.innerText))
+                    onChange(e, e.target.innerText)
                     e.preventDefault()
                 }
             }}
             onInput={(e) => {
-                onChange(e, adjustVal(e.target.innerText))
+                if (e.target.innerText === "\n") e.target.innerText = ""
+                onChange(e, e.target.innerText.replaceAll("\n\n", "\n"))
             }}
         >
             {renderContent(defaultValue)}
         </div>
     )
-}
-
-function adjustVal(val) {
-    if (val === "\n") {
-        return ""
-    } else {
-        return val.replaceAll("\n\n", "\n")
-    }
 }
 
 function renderContent(val) {

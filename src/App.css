@@ -1,5 +1,6 @@
 .app {
     display: flex;
+    flex-direction: row-reverse;
     width: 300px;
     min-height: 200px;
     position: relative;
@@ -24,8 +25,19 @@
     outline: 0;
 }
 
+.textarea:not(:focus):empty::before {
+    content: "Placeholder";
+    color: #00000030;
+    position: relative;
+    left: -20px;
+}
+
 .bullets {
     width: 16px;
+}
+
+.textarea:empty + .bullets {
+    visibility: hidden;
 }
 
 .bullet {
