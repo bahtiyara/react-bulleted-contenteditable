@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react"
+import ContentEditable from "./ContentEditable"
+import "./App.css"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function App() {
+    const defaultValue = ""
+    const [data, setData] = useState(defaultValue)
+    const [heights, setHeights] = useState([])
+
+    return (
+        <div className="app">
+            <div className="bullets">
+                {data.split("\n").map((i, index) => (
+                    <Bullet height={heights[index]} key={index} />
+                ))}
+            </div>
+            <ContentEditable
+                className="textarea"
+                onChange={(e, val) => {
+                    setData(val)
+                    setHeights(textHeights(e.target))
+                }}
+                defaultValue={defaultValue}
+            />
+        </div>
+    )
 }
 
-export default App;
+function Bullet({ height }) {
+    return (
+        <div style={{ height }} className="bullet">
+            <div className="dot"></div>
+        </div>
+    )
+}
+
+const textHeights = (target) => {
+    let heights = []
+    const children = target.children
+    for (const el of children) {
+        heights.push(el.offsetHeight)
+    }
+    return heights
+}
