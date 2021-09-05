@@ -1,44 +1,17 @@
-import { useState } from "react"
-import ContentEditable from "./ContentEditable"
-import "./App.css"
+import { useState, useEffect } from "react"
+import BulletedTextarea from "./BulletedTextarea"
 
-export default function App() {
-    const defaultValue = ""
-    const [data, setData] = useState(defaultValue)
-    const [heights, setHeights] = useState([])
+export default function () {
+    const [instances, setInstances] = useState("Wow")
+
+    useEffect(() => {
+        console.log(instances)
+    }, [instances])
 
     return (
-        <div className="app">
-            <ContentEditable
-                className="textarea"
-                onChange={(e, val) => {
-                    setData(val)
-                    setHeights(textHeights(e.target))
-                }}
-                defaultValue={defaultValue}
-            />
-            <div className="bullets">
-                {data.split("\n").map((i, index) => (
-                    <Bullet height={heights[index]} key={index} />
-                ))}
-            </div>
-        </div>
+        <BulletedTextarea
+            onChange={(val) => setInstances(val)}
+            defaultValue={instances}
+        />
     )
-}
-
-function Bullet({ height }) {
-    return (
-        <div style={{ height }} className="bullet">
-            <div className="dot"></div>
-        </div>
-    )
-}
-
-const textHeights = (target) => {
-    let heights = []
-    const children = target.children
-    for (const el of children) {
-        heights.push(el.offsetHeight)
-    }
-    return heights
 }

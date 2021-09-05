@@ -1,5 +1,11 @@
+import { useMemo } from "react"
+
 export default function ContentEditable(props) {
     const { defaultValue, onChange, className, id, onFocus } = props
+
+    const val = useMemo(() => defaultValue, [])
+
+    // console.log(defaultValue)
     return (
         <div
             id={id}
@@ -30,7 +36,7 @@ export default function ContentEditable(props) {
                 onChange(e, e.target.innerText.replaceAll("\n\n", "\n"))
             }}
         >
-            {renderContent(defaultValue)}
+            {renderContent(val)}
         </div>
     )
 }
